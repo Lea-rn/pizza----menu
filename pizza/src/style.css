@@ -1,0 +1,10 @@
+body {
+  padding: 3.2rem;
+  padding-bottom: 6rem;
+}
+.app-title {
+  color: #edc84b;
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 5.2rem;
+}
