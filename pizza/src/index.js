@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./style.css";
 
 const pizzaData = [
+  ///// dummy data ....
   {
     name: "Focaccia",
     ingredients: "Bread with italian olive oil and rosemary",
@@ -15,7 +16,7 @@ const pizzaData = [
     ingredients: "Tomato and mozarella",
     price: 10,
     photoName: "pizzas/margherita.jpg",
-    soldOut: false,
+    soldOut: true,
   },
   {
     name: "Pizza Spinaci",
@@ -80,13 +81,21 @@ function Menu() {
   return (
     <main className="menu">
       <h2>Our menu </h2>
-      {/* condetional rendering ternary operator ...  */}
+
       {numPizzas > 0 ? (
-        <div className="pizza-container">
-          {pizzas.map((ele) => {
-            return <Pizza pizzaObj={ele} key={ele.ingredients} />;
-          })}
-        </div>
+        // react fragment :::
+        <>
+          <p style={{ textAlign: "center" }}>
+            Authentic Italien cuisine . 6 creative dishes to choose from . All
+            from our stone oven , all organic , all delicious ...
+          </p>
+
+          <div className="pizza-container">
+            {pizzas.map((ele) => {
+              return <Pizza pizzaObj={ele} key={ele.ingredients} />;
+            })}
+          </div>
+        </>
       ) : (
         <p style={{ fontSize: "60px", textAlign: "center", fontWeight: "700" }}>
           We're still working on our menu . Please come back later ....
@@ -96,15 +105,22 @@ function Menu() {
   );
 }
 
-function Pizza(props) {
-  if (props.pizzaObj.soldOut) return; ///// condinoal rendering eartly return ;
+function Pizza({ pizzaObj }) {
+  ///// destructring
+  // if (pizzaObj.soldOut) return; ///// condinoal rendering eartly return ;
   return (
-    <div className="pizza-card">
-      <img src={props.pizzaObj.photoName} alt={props.pizzaObj.name} />
+    <div className={`pizza-card ${pizzaObj.soldOut ? "sold-out" : ""}`}>
+      <img src={pizzaObj.photoName} alt={pizzaObj.name} />
       <div>
-        <h3>{props.pizzaObj.name} </h3>
-        <p>{props.pizzaObj.ingredients}</p>
-        <span>{props.pizzaObj.price + 3}</span>
+        <h3>{pizzaObj.name} </h3>
+        <p>{pizzaObj.ingredients}</p>
+
+        <span>{pizzaObj.soldOut ? "SOLD OUT" : pizzaObj.price}</span>
+        {/* {pizzaObj.soldOut ? (
+          <span> SOLD OUT </span>
+        ) : (
+          <span> {pizzaObj.price}</span>
+        )} */}
       </div>
     </div>
   );
@@ -122,7 +138,7 @@ function Footer() {
   return (
     <footer>
       {isOpen ? (
-        <Order closeHour={closeHour} />
+        <Order closeHour={closeHour} openHour={openHour} />
       ) : (
         <p>
           We're happy to welcome you between {openHour}:00 and {closeHour}:00
@@ -133,11 +149,12 @@ function Footer() {
   );
 }
 
-function Order(props) {
+function Order({ closeHour, openHour }) {
   return (
     <div>
       <p>
-        We're open until {props.closeHour}:00 , Come visit us or order online
+        We're open from {openHour}:00 to {closeHour}:00 , Come visit us or order
+        online
       </p>
       <button className="btn">Order</button>
     </div>

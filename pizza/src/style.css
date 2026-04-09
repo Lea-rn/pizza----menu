@@ -65,3 +65,12 @@ footer {
   flex-wrap: wrap;
   justify-content: center;
 }
+
+.sold-out {
+  background-color: gray;
+  opacity: 0.5;
+}
+
+.sold-out img {
+  opacity: 0.2;
+}
